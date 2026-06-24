@@ -72,8 +72,25 @@ async function loadStats() {
 //  카테고리 추가
 // ============================================================
 async function addCategory(name) {
+  // 중복 검사: 이미 같은 이름(대소문자/앞뒤공백 무시)의 카테고리가 있으면 막는다
+  const exists = categories.some(
+    (c) => c.name.trim().toLowerCase() === name.trim().toLowerCase()
+  );
+  if (exists) {
+    alert(`"${name}" 카테고리는 이미 있습니다.`);
+    return;
+  }
+
   const { error } = await sb.from("categories").insert({ name });
-  if (error) { alert("카테고리 추가 실패: " + error.message); return; }
+  if (error) {
+    // DB UNIQUE 제약에 걸린 경우(코드 23505)도 중복 안내로 처리
+    if (error.code === "23505") {
+      alert(`"${name}" 카테고리는 이미 있습니다.`);
+    } else {
+      alert("카테고리 추가 실패: " + error.message);
+    }
+    return;
+  }
   await loadCategories();
   await loadStats();
 }

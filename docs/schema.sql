@@ -7,7 +7,7 @@
 -- 1) 카테고리 테이블 ------------------------------------------
 create table if not exists categories (
   id          bigint generated always as identity primary key,
-  name        text not null,
+  name        text not null unique,   -- 같은 이름의 카테고리는 중복 저장 불가
   created_at  timestamptz not null default now()
 );
 
