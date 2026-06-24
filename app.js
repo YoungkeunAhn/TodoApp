@@ -15,16 +15,21 @@ let todos = [];        // [{id, title, checked, category_id, target_date, comple
 let selectedDate = todayStr();
 
 // ---------- 날짜 도우미 ----------
+// Date 객체를 "로컬 시간 기준" YYYY-MM-DD 문자열로 만든다.
+// (toISOString()은 UTC로 바꿔버려서 시차만큼 날짜가 어긋나므로 쓰지 않는다.)
+function fmtDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
 function todayStr() {
-  // 로컬 시간 기준 오늘 날짜를 YYYY-MM-DD 로
-  const d = new Date();
-  const off = d.getTimezoneOffset();
-  return new Date(d.getTime() - off * 60000).toISOString().slice(0, 10);
+  return fmtDate(new Date());
 }
 function shiftDate(dateStr, days) {
-  const d = new Date(dateStr + "T00:00:00");
+  const d = new Date(dateStr + "T00:00:00"); // 로컬 자정으로 해석
   d.setDate(d.getDate() + days);
-  return d.toISOString().slice(0, 10);
+  return fmtDate(d);
 }
 function diffDays(a, b) {
   // a - b (일 수)
