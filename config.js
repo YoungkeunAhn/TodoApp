@@ -12,5 +12,5 @@
 //     프론트엔드(브라우저) 코드에 절대 넣으면 안 됩니다.
 // ============================================================
 
-const SUPABASE_URL = "여기에_PROJECT_URL_붙여넣기";      // 예: https://abcdefgh.supabase.co
-const SUPABASE_ANON_KEY = "여기에_ANON_PUBLIC_KEY_붙여넣기"; // 예: eyJhbGciOiJIUzI1NiI...
+const SUPABASE_URL = "https://yltqxejisfjkttilarjm.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlsdHF4ZWppc2Zqa3R0aWxhcmptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyOTI5MTUsImV4cCI6MjA5Nzg2ODkxNX0.9stDrrU6bkthDTTcMxAuyvCW3VxgT2IikdbC8HhLzHA";
