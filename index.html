@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>카테고리별 Todo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>📋 카테고리별 할 일 관리</h1>
+  </header>
+
+  <main>
+    <!-- 1) 카테고리 추가 -->
+    <section class="card">
+      <h2>카테고리</h2>
+      <form id="category-form" class="row">
+        <input type="text" id="category-name" placeholder="카테고리 이름 (예: 공부)" />
+        <button type="submit">추가</button>
+      </form>
+      <ul id="category-list" class="chips"></ul>
+    </section>
+
+    <!-- 2) 할 일 추가 -->
+    <section class="card">
+      <h2>할 일 추가</h2>
+      <form id="todo-form" class="row">
+        <input type="text" id="todo-title" placeholder="할 일 제목" />
+        <select id="todo-category"></select>
+        <input type="date" id="todo-date" />
+        <button type="submit">추가</button>
+      </form>
+    </section>
+
+    <!-- 3) 날짜 이동 바 -->
+    <section class="card">
+      <div class="date-bar">
+        <button type="button" id="prev-day">◀ 이전</button>
+        <button type="button" id="today-day">오늘</button>
+        <button type="button" id="next-day">다음 ▶</button>
+        <input type="date" id="pick-day" />
+      </div>
+      <p class="selected-label">기준 날짜: <strong id="selected-date-text"></strong></p>
+    </section>
+
+    <!-- 4) 밀린 할 일 -->
+    <section class="card">
+      <h2>🔴 밀린 할 일</h2>
+      <ul id="overdue-list" class="todos"></ul>
+    </section>
+
+    <!-- 5) 오늘(기준 날짜) 할 일 -->
+    <section class="card">
+      <h2>🟢 오늘 할 일</h2>
+      <ul id="today-list" class="todos"></ul>
+    </section>
+
+    <!-- 6) 카테고리별 통계 -->
+    <section class="card">
+      <h2>📊 카테고리별 통계</h2>
+      <table class="stats">
+        <thead>
+          <tr>
+            <th>카테고리</th>
+            <th>남은 개수</th>
+            <th>완료 개수</th>
+            <th>평균 달성속도</th>
+          </tr>
+        </thead>
+        <tbody id="stats-body"></tbody>
+      </table>
+      <p class="hint">평균 달성속도 = (완료한 날짜 − 해야 했던 날짜)의 평균 · 음수=일찍, 0=당일, 양수=늦게</p>
+    </section>
+  </main>
+
+  <!-- Supabase 공식 JS 라이브러리 (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 접속 정보 (URL / anon key) -->
+  <script src="config.js"></script>
+  <!-- 앱 로직 -->
+  <script src="app.js"></script>
+</body>
+</html>
