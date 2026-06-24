@@ -4,72 +4,125 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>카테고리별 Todo</title>
+
+  <!-- Material 느낌의 폰트 & 아이콘 (MUI / Figma 참고) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>📋 카테고리별 할 일 관리</h1>
+  <!-- 상단 앱 바 -->
+  <header class="app-bar">
+    <div class="app-bar__inner">
+      <span class="material-symbols-rounded app-bar__logo">task_alt</span>
+      <h1>카테고리별 할 일</h1>
+    </div>
   </header>
 
   <main>
-    <!-- 1) 카테고리 추가 -->
+    <!-- 1) 카테고리 -->
     <section class="card">
-      <h2>카테고리</h2>
+      <div class="card__head">
+        <span class="material-symbols-rounded">label</span>
+        <h2>카테고리</h2>
+      </div>
       <form id="category-form" class="row">
-        <input type="text" id="category-name" placeholder="카테고리 이름 (예: 공부)" />
-        <button type="submit">추가</button>
+        <div class="field">
+          <input type="text" id="category-name" placeholder=" " />
+          <label>카테고리 이름 (예: 공부)</label>
+        </div>
+        <button type="submit" class="btn btn--filled">
+          <span class="material-symbols-rounded">add</span> 추가
+        </button>
       </form>
       <ul id="category-list" class="chips"></ul>
     </section>
 
     <!-- 2) 할 일 추가 -->
     <section class="card">
-      <h2>할 일 추가</h2>
+      <div class="card__head">
+        <span class="material-symbols-rounded">add_task</span>
+        <h2>할 일 추가</h2>
+      </div>
       <form id="todo-form" class="row">
-        <input type="text" id="todo-title" placeholder="할 일 제목" />
-        <select id="todo-category"></select>
-        <input type="date" id="todo-date" />
-        <button type="submit">추가</button>
+        <div class="field field--grow">
+          <input type="text" id="todo-title" placeholder=" " />
+          <label>할 일 제목</label>
+        </div>
+        <div class="field">
+          <select id="todo-category"></select>
+        </div>
+        <div class="field">
+          <input type="date" id="todo-date" />
+        </div>
+        <button type="submit" class="btn btn--filled">
+          <span class="material-symbols-rounded">add</span> 추가
+        </button>
       </form>
     </section>
 
-    <!-- 3) 날짜 이동 바 -->
+    <!-- 3) 날짜 이동 -->
     <section class="card">
       <div class="date-bar">
-        <button type="button" id="prev-day">◀ 이전</button>
-        <button type="button" id="today-day">오늘</button>
-        <button type="button" id="next-day">다음 ▶</button>
-        <input type="date" id="pick-day" />
+        <div class="segmented">
+          <button type="button" id="prev-day" class="btn btn--text">
+            <span class="material-symbols-rounded">chevron_left</span> 이전
+          </button>
+          <button type="button" id="today-day" class="btn btn--tonal">오늘</button>
+          <button type="button" id="next-day" class="btn btn--text">
+            다음 <span class="material-symbols-rounded">chevron_right</span>
+          </button>
+        </div>
+        <div class="field field--date">
+          <input type="date" id="pick-day" />
+        </div>
       </div>
-      <p class="selected-label">기준 날짜: <strong id="selected-date-text"></strong></p>
+      <p class="selected-label">
+        <span class="material-symbols-rounded">event</span>
+        기준 날짜 <strong id="selected-date-text"></strong>
+      </p>
     </section>
 
     <!-- 4) 밀린 할 일 -->
     <section class="card">
-      <h2>🔴 밀린 할 일</h2>
+      <div class="card__head">
+        <span class="material-symbols-rounded danger">error</span>
+        <h2>밀린 할 일</h2>
+      </div>
       <ul id="overdue-list" class="todos"></ul>
     </section>
 
     <!-- 5) 오늘(기준 날짜) 할 일 -->
     <section class="card">
-      <h2>🟢 오늘 할 일</h2>
+      <div class="card__head">
+        <span class="material-symbols-rounded ok">today</span>
+        <h2>오늘 할 일</h2>
+      </div>
       <ul id="today-list" class="todos"></ul>
     </section>
 
     <!-- 6) 카테고리별 통계 -->
     <section class="card">
-      <h2>📊 카테고리별 통계</h2>
-      <table class="stats">
-        <thead>
-          <tr>
-            <th>카테고리</th>
-            <th>남은 개수</th>
-            <th>완료 개수</th>
-            <th>평균 달성속도</th>
-          </tr>
-        </thead>
-        <tbody id="stats-body"></tbody>
-      </table>
+      <div class="card__head">
+        <span class="material-symbols-rounded">insights</span>
+        <h2>카테고리별 통계</h2>
+      </div>
+      <div class="table-wrap">
+        <table class="stats">
+          <thead>
+            <tr>
+              <th>카테고리</th>
+              <th>남은 개수</th>
+              <th>완료 개수</th>
+              <th>평균 달성속도</th>
+            </tr>
+          </thead>
+          <tbody id="stats-body"></tbody>
+        </table>
+      </div>
       <p class="hint">평균 달성속도 = (완료한 날짜 − 해야 했던 날짜)의 평균 · 음수=일찍, 0=당일, 양수=늦게</p>
     </section>
   </main>
