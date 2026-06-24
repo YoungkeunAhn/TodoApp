@@ -63,6 +63,7 @@
 | [검증 체크리스트(기획)](./verification.md) | 기획 기준 동작 확인 체크리스트 |
 | [검증 체크리스트(구현)](./final-checklist.md) | 실제 구현물 기준 실습 체크리스트 |
 | [배포 가이드](./deploy-github-pages.md) | GitHub + GitHub Pages 배포 순서 |
+| [아키텍처 결정 기록(ADR)](./adr/README.md) | 왜 이렇게 만들었는지 결정 기록 모음 |
 
 ## 7. DB / 코드 파일
 
