@@ -3,7 +3,8 @@
    - 시스템 폰트, 워밍 뉴트럴 팔레트, 얇은 경계선, 은은한 hover,
      작은 라운드, 컬러 도트 태그. 좌측 사이드바 앱 셸 레이아웃.
    - app.js 가 만드는 클래스(.todos/.info/.title/.meta/.cat/.del-btn/
-     .empty, #category-list li, table.stats)는 그대로 지원.
+     .empty, #category-list li > .cat-name/.cat-actions/.cat-action,
+     table.stats)는 그대로 지원.
    ============================================================ */
 
 /* ---------- 테마 토큰 ---------- */
@@ -217,6 +218,46 @@ body {
 .nav-list li:nth-child(6n+4)::before { background: #c6a4e0; }
 .nav-list li:nth-child(6n+5)::before { background: var(--dot-red); }
 .nav-list li:nth-child(6n+6)::before { background: #e8c577; }
+
+/* 카테고리 항목: 이름 + 수정/삭제 액션 */
+.cat-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cat-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  margin-right: -2px;
+  opacity: 0;
+  transition: opacity .08s ease;
+}
+.nav-list li:hover .cat-actions { opacity: 1; }
+/* 터치 기기(hover 없음)에서는 항상 노출 */
+@media (hover: none) {
+  .cat-actions { opacity: 1; }
+}
+.cat-action {
+  width: 22px; height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background .08s ease, color .08s ease;
+}
+.cat-action:hover { background: var(--bg-hover-strong); color: var(--text); }
+.cat-action--danger { font-size: 17px; }
+.cat-action--danger:hover { color: var(--tag-red-fg); }
 
 /* 인라인 추가 폼 */
 .add-inline {

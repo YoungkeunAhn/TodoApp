@@ -101,6 +101,55 @@ async function addCategory(name) {
 }
 
 // ============================================================
+//  카테고리 수정 / 삭제
+// ============================================================
+
+// 카테고리 이름 수정
+async function renameCategory(id, newName) {
+  // 중복 검사: 자기 자신을 제외하고 같은 이름(대소문자/앞뒤공백 무시)이 있으면 막는다
+  const exists = categories.some(
+    (c) =>
+      c.id !== id &&
+      c.name.trim().toLowerCase() === newName.trim().toLowerCase()
+  );
+  if (exists) {
+    alert(`"${newName}" 카테고리는 이미 있습니다.`);
+    return;
+  }
+
+  const { error } = await sb
+    .from("categories")
+    .update({ name: newName })
+    .eq("id", id);
+  if (error) {
+    // DB UNIQUE 제약(23505)에 걸린 경우도 중복 안내로 처리
+    if (error.code === "23505") {
+      alert(`"${newName}" 카테고리는 이미 있습니다.`);
+    } else {
+      alert("카테고리 수정 실패: " + error.message);
+    }
+    return;
+  }
+  await loadCategories();
+  await loadTodos(); // 할 일 목록에 표시되는 카테고리 이름도 갱신
+  await loadStats();
+}
+
+// 카테고리 삭제
+// 주의: todos.category_id 는 ON DELETE CASCADE 라서, 카테고리를 지우면
+// 그 카테고리에 속한 할 일도 DB에서 함께 삭제된다(schema.sql 참고).
+async function deleteCategory(id) {
+  const { error } = await sb.from("categories").delete().eq("id", id);
+  if (error) {
+    alert("카테고리 삭제 실패: " + error.message);
+    return;
+  }
+  await loadCategories();
+  await loadTodos();
+  await loadStats();
+}
+
+// ============================================================
 //  할 일 추가 / 완료토글 / 삭제
 // ============================================================
 async function addTodo(title, categoryId, targetDate) {
@@ -142,7 +191,54 @@ function renderCategories() {
   ul.innerHTML = "";
   categories.forEach((c) => {
     const li = document.createElement("li");
-    li.textContent = c.name;
+
+    // 카테고리 이름
+    const name = document.createElement("span");
+    name.className = "cat-name";
+    name.textContent = c.name;
+
+    // 수정 / 삭제 액션 (hover 시 노출)
+    const actions = document.createElement("span");
+    actions.className = "cat-actions";
+
+    const editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.className = "cat-action";
+    editBtn.title = "이름 수정";
+    editBtn.setAttribute("aria-label", `${c.name} 이름 수정`);
+    editBtn.textContent = "✎";
+    editBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); // 모바일에서 사이드바가 닫히지 않도록
+      const next = prompt("카테고리 이름 수정", c.name);
+      if (next === null) return; // 취소
+      const trimmed = next.trim();
+      if (!trimmed || trimmed === c.name) return; // 빈 값/변경 없음
+      renameCategory(c.id, trimmed);
+    });
+
+    const delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.className = "cat-action cat-action--danger";
+    delBtn.title = "삭제";
+    delBtn.setAttribute("aria-label", `${c.name} 삭제`);
+    delBtn.textContent = "×";
+    delBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      // 이 카테고리에 속한 할 일 개수(메모리 캐시 기준)
+      const linked = todos.filter((t) => t.category_id === c.id).length;
+      const msg =
+        linked > 0
+          ? `"${c.name}" 카테고리를 삭제하면 이 카테고리의 할 일 ${linked}개도 함께 삭제됩니다.\n계속할까요?`
+          : `"${c.name}" 카테고리를 삭제할까요?`;
+      if (!confirm(msg)) return;
+      deleteCategory(c.id);
+    });
+
+    actions.appendChild(editBtn);
+    actions.appendChild(delBtn);
+
+    li.appendChild(name);
+    li.appendChild(actions);
     ul.appendChild(li);
   });
 }
