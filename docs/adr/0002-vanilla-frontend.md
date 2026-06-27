@@ -14,7 +14,8 @@
 - 빌드 없이 동작하는 **순수 HTML/CSS/JavaScript** 정적 사이트로 만든다.
 - 라이브러리는 CDN `<script>`로만 불러온다(Supabase JS).
 - 파일 구성: `index.html`, `style.css`, `config.js`, `app.js`.
-- 디자인은 MUI/Material 컴포넌트 대신 **Material 느낌의 자체 CSS**로 흉내 낸다(React 미사용이므로).
+- 디자인은 컴포넌트 라이브러리 대신 **자체 CSS**로 만든다(React 미사용이므로).
+  - 초기에는 Material 느낌으로 흉내 냈으나, 이후 **Notion 스타일 + 라이트/다크**로 개편함([0008](./0008-notion-ui-light-dark.md)).
 
 ## 결과 (Consequences)
 
