@@ -35,6 +35,10 @@ categories (1) ────< (N) todos
        하나의 할 일은 하나의 카테고리에 속한다.
 ```
 
+- `todos.category_id`는 `categories.id`를 참조하며 **`ON DELETE CASCADE`** 다.
+  즉 **카테고리를 삭제하면 그 카테고리의 할 일도 함께 삭제**된다
+  (UI에서 삭제 전 개수를 경고한다 — [카테고리 기능](./category.md) · [ADR 0009](./adr/0009-category-edit-delete.md)).
+
 ## 4. 데이터 규칙
 
 - `is_done`이 **거짓**이면 `done_date`는 **비어 있다(null)**.
