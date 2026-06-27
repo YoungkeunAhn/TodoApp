@@ -13,6 +13,7 @@
 | --- | --- | --- |
 | `id` | uuid / 정수 | 카테고리 고유 번호 (자동 생성) |
 | `name` | 텍스트 | 카테고리 이름 (예: "공부", "운동") |
+| `color` | 텍스트 (비어있을 수 있음) | 색 키 (`blue`/`green`/`orange`/`red`/`purple`/`yellow`/`pink`/`gray`). 화면에서 **색 점**으로 표시 · [ADR 0010](./adr/0010-category-color.md) |
 | `created_at` | 날짜시간 | 만든 시각 (자동 기록) |
 
 ## 2. 할 일 (todos)
@@ -49,10 +50,10 @@ categories (1) ────< (N) todos
 ## 5. 예시 데이터
 
 **categories**
-| id | name |
-| --- | --- |
-| 1 | 공부 |
-| 2 | 운동 |
+| id | name | color |
+| --- | --- | --- |
+| 1 | 공부 | blue |
+| 2 | 운동 | green |
 
 **todos**
 | id | title | category_id | due_date | is_done | done_date |

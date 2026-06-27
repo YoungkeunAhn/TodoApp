@@ -6,7 +6,7 @@
 > Supabase 대시보드의 **Table Editor** 도 함께 띄워 놓고 비교하면 좋다.
 
 현재 구현 파일: `index.html`, `style.css`, `config.js`, `app.js`
-DB 파일: `docs/schema.sql`, `docs/category_stats_view.sql`
+DB 파일: `docs/schema.sql`, `docs/add-category-color.sql`, `docs/category_stats_view.sql`
 
 ---
 
@@ -15,11 +15,12 @@ DB 파일: `docs/schema.sql`, `docs/category_stats_view.sql`
 - [ ] `config.js`에 본인 **Project URL**과 **anon public key**가 들어가 있다.
 - [ ] `service_role` 키는 코드 어디에도 들어가 있지 **않다**.
 - [ ] Supabase에서 `schema.sql` → `category_stats_view.sql` 순서로 실행했다.
+      (이전에 만든 DB라 `categories`에 `color`가 없다면 `add-category-color.sql`도 1번 실행)
 
 ## 1. 카테고리
 
 - [ ] 카테고리 이름을 입력하고 [추가]를 누르면 **칩 목록에 바로** 나타난다.
-- [ ] 할 일 추가 영역의 **카테고리 선택 메뉴**에도 그 카테고리가 보인다.
+- [ ] 할 일 추가 영역의 **카테고리 선택 메뉴**(커스텀 드롭다운)에 그 카테고리가 **색 점과 함께** 보인다.
 - [ ] Supabase Table Editor의 `categories` 테이블에도 같은 행이 생겼다.
 - [ ] 카테고리 항목에 hover 하면 **✎(수정) / ×(삭제)** 버튼이 보인다.
 - [ ] ✎로 이름을 바꾸면 목록·할 일·통계의 카테고리 이름이 **함께** 갱신된다.
@@ -27,6 +28,9 @@ DB 파일: `docs/schema.sql`, `docs/category_stats_view.sql`
 - [ ] ×로 삭제하면 확인창 뒤 목록에서 사라지고 `categories` 테이블에서도 빠진다.
 - [ ] **할 일이 연결된** 카테고리를 삭제하면 "할 일 N개도 함께 삭제됩니다" 경고가 뜨고,
       확인 시 `todos` 테이블의 해당 할 일도 함께 사라진다(ON DELETE CASCADE).
+- [ ] 카테고리 항목 앞 **색 점**을 누르면 팔레트가 떠서 색을 고를 수 있다.
+- [ ] 색을 바꾸면 사이드바·할 일 태그·통계의 점 색이 **함께** 바뀌고, 새로고침해도 유지된다.
+      (Table Editor의 `categories.color` 값도 함께 바뀐다.)
 
 ## 2. 할 일 추가 / 조회
 
