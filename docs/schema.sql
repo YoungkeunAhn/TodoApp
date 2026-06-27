@@ -8,6 +8,7 @@
 create table if not exists categories (
   id          bigint generated always as identity primary key,
   name        text not null unique,   -- 같은 이름의 카테고리는 중복 저장 불가
+  color       text,                   -- 색 키(blue/green/orange/red/purple/yellow/pink/gray). 비어 있으면 프론트가 이름으로 기본색 부여
   created_at  timestamptz not null default now()
 );
 
@@ -57,10 +58,10 @@ create policy "todos_delete" on todos for delete using (true);
 -- 테스트용 예시 데이터
 -- ============================================================
 
-insert into categories (name) values
-  ('공부'),
-  ('운동'),
-  ('집안일');
+insert into categories (name, color) values
+  ('공부',   'blue'),
+  ('운동',   'green'),
+  ('집안일', 'orange');
 
 -- category_id 는 위에서 만든 카테고리 이름으로 찾아서 넣는다.
 insert into todos (title, category_id, target_date, checked, completed_at) values

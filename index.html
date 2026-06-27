@@ -89,7 +89,8 @@
           <span class="composer__plus">＋</span>
           <input type="text" id="todo-title" class="composer__title"
                  placeholder="새 할 일 입력…" autocomplete="off" />
-          <select id="todo-category" class="composer__select" aria-label="카테고리"></select>
+          <!-- 색 점을 항목에 넣기 위해 네이티브 select 대신 커스텀 드롭다운 사용 (app.js가 렌더) -->
+          <div id="todo-category" class="cat-select" aria-label="카테고리"></div>
           <input type="date" id="todo-date" class="composer__date" aria-label="날짜" />
           <button type="submit" class="btn btn--primary">추가</button>
         </form>
